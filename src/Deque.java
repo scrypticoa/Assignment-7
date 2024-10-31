@@ -4,6 +4,15 @@ import java.util.function.Predicate;
 abstract class ANode<T> {
   ANode<T> prev;
   ANode<T> next;
+  
+  public int size() {
+    return 1 + next.size();
+  }
+  
+  public void remove() {
+    this.prev.setNext(this.next);
+    this.next.setPrev(this.prev);
+  }
 
   // changes what the the next ANode this ANode is conected too
   public void setPrev(ANode<T> node) {
@@ -15,12 +24,15 @@ abstract class ANode<T> {
     this.next = node;
   }
 
+<<<<<<< HEAD
   // counts the amount of ANodes in the deque
   public int size() {
     return 1 + next.size();
   }
 
   // a method to find the first node to pass the predicate
+=======
+>>>>>>> 9bdc693d1e2b669ae55cef65a46e66304561757b
   abstract ANode<T> find(Predicate<T> p);
 }
 
@@ -71,13 +83,31 @@ class Sentinel<T> extends ANode<T> {
   public int getSize() {
     return next.size();
   }
+  
+  @Override
+  public void remove() {
+    throw new RuntimeException("Attempting to remove from empty deque");
+  }
+  
+  public void removeFromHead() {
+    this.next.remove();
+  }
+  
+  public void removeFromTail() {
+    this.prev.remove();
+  }
 
   //starts the find on the first node
   public ANode<T> findHelp(Predicate<T> p) {
     return next.find(p);
   }
+<<<<<<< HEAD
 
   //ends the find method when no passing predicate is found
+=======
+  
+  @Override
+>>>>>>> 9bdc693d1e2b669ae55cef65a46e66304561757b
   public ANode<T> find(Predicate<T> p) {
     return this;
   }
@@ -96,6 +126,7 @@ class Deque<T> {
   public Deque(Sentinel<T> header) {
     this.header = header;
   }
+<<<<<<< HEAD
 
   //counts the number of nodes in a list Deque, not including the header node
   public int size() {
@@ -110,10 +141,32 @@ class Deque<T> {
   //consumes a value of type T and inserts it at the tail of this list
   public void addAtTail(T data) {
     new Node<T>(header.prev, data, header);
+=======
+  
+  public int size()
+  {
+    return this.header.getSize();
   }
-
-  public void removeFromHead() {
-
+  
+  public void addAtHead(T data)
+  {
+    new Node<T>(this.header, data, this.header.next);
+  }
+  
+  public void addAtTail(T data)
+  {
+    new Node<T>(this.header.prev, data, this.header);
+>>>>>>> 9bdc693d1e2b669ae55cef65a46e66304561757b
+  }
+  
+  public void removeFromHead()
+  {
+    this.header.removeFromHead();
+  }
+  
+  public void removeFromTail()
+  {
+    this.header.removeFromTail();
   }
 
   // finds the first node that returns true for p
