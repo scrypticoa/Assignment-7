@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
+// represents the connection between nodes and the sentinal of a Deque
 abstract class ANode<T> {
   ANode<T> prev;
   ANode<T> next;
@@ -38,6 +39,7 @@ abstract class ANode<T> {
   public abstract ArrayList<T> doFlatten(ArrayList<T> acc);
 }
 
+// represents a node in a deque that hold the data of type <T>
 class Node<T> extends ANode<T> {
   T data;
 
@@ -75,6 +77,7 @@ class Node<T> extends ANode<T> {
   }
 }
 
+// represents a sentinal/header to the ANode Deque
 class Sentinel<T> extends ANode<T> {
   public Sentinel() {
     next = this;
@@ -133,13 +136,16 @@ class Sentinel<T> extends ANode<T> {
   }
 }
 
+// represents a deque with ANodes of type <T>
 class Deque<T> {
   Sentinel<T> header;
 
+  // constructor
   public Deque() {
     this.header = new Sentinel<T>();
   }
 
+  // constructor
   public Deque(Sentinel<T> header) {
     this.header = header;
   }
