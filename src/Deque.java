@@ -3,6 +3,15 @@ abstract class ANode<T>
   ANode<T> prev;
   ANode<T> next;
   
+  public int size() {
+    return 1 + next.size();
+  }
+  
+  public void remove() {
+    this.prev.setNext(this.next);
+    this.next.setPrev(this.prev);
+  }
+  
   public void setPrev(ANode<T> node)
   {
     this.prev = node;
@@ -11,10 +20,6 @@ abstract class ANode<T>
   public void setNext(ANode<T> node)
   {
     this.next = node;
-  }
-  
-  public int size() {
-    return 1 + next.size();
   }
 }
 
@@ -58,6 +63,19 @@ class Sentinel<T> extends ANode<T>
   public int getSize() {
     return next.size();
   }
+  
+  @Override
+  public void remove() {
+    throw new RuntimeException("Attempting to remove from empty deque");
+  }
+  
+  public void removeFromHead() {
+    this.next.remove();
+  }
+  
+  public void removeFromTail() {
+    this.prev.remove();
+  }
 }
 
 class Deque<T>
@@ -76,22 +94,27 @@ class Deque<T>
   
   public int size()
   {
-    return header.getSize();
+    return this.header.getSize();
   }
   
   public void addAtHead(T data)
   {
-    new Node<T>(header, data, header.next);
+    new Node<T>(this.header, data, this.header.next);
   }
   
   public void addAtTail(T data)
   {
-    new Node<T>(header.prev, data, header);
+    new Node<T>(this.header.prev, data, this.header);
   }
   
   public void removeFromHead()
   {
-    
+    this.header.removeFromHead();
+  }
+  
+  public void removeFromTail()
+  {
+    this.header.removeFromTail();
   }
 }
 
