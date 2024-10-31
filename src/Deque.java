@@ -21,10 +21,6 @@ abstract class ANode<T> {
     this.next = node;
   }
 
-  public int size() {
-    return 1 + next.size();
-  }
-
   abstract ANode<T> find(Predicate<T> p);
 }
 
@@ -82,6 +78,7 @@ class Sentinel<T> extends ANode<T> {
   
   public void removeFromTail() {
     this.prev.remove();
+  }
 
   public ANode<T> findHelp(Predicate<T> p) {
     return next.find(p);
@@ -127,9 +124,6 @@ class Deque<T> {
   public void removeFromTail()
   {
     this.header.removeFromTail();
-
-  public int size() {
-    return header.getSize();
   }
 
   public ANode<T> find(Predicate<T> p) {
